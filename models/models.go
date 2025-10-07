@@ -14,6 +14,7 @@ type User struct {
 	DOB          *time.Time
 	HeightCm     *int
 	Gender       string
+	Role         string `gorm:"default:user"`
 }
 
 type Workout struct {
