@@ -21,3 +21,17 @@ func AuthRequired() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+func AdminRequired() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		session := sessions.Default(c)
+		role := session.Get("user_role").(string)
+
+		if role != "admin" {
+			c.HTML(http.StatusForbidden, "error", gin.H{"error": "Administrator access required"})
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
+}
