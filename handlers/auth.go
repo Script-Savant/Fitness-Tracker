@@ -19,6 +19,12 @@ func NewAuthController(db *gorm.DB) *AuthController {
 }
 
 func (ac *AuthController) Login(c *gin.Context) {
+
+	if c.Request.Method == "GET" {
+		c.HTML(http.StatusFound, "login", gin.H{})
+		return
+	}
+
 	email := c.PostForm("email")
 	password := c.PostForm("password")
 
