@@ -12,7 +12,7 @@ type User struct {
 	PasswordHash string `gorm:"not null"`
 	DisplayName  string
 	DOB          *time.Time
-	HeightCm     *int
+	HeightCm     *uint
 	Gender       string
 	Role         string `gorm:"default:user"`
 }
