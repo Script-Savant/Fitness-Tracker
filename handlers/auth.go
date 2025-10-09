@@ -141,7 +141,7 @@ func (ac *AuthController) Register(c *gin.Context) {
 func (ac *AuthController) Login(c *gin.Context) {
 
 	if c.Request.Method == "GET" {
-		c.HTML(http.StatusFound, "login", gin.H{})
+		c.HTML(http.StatusOK, "login", gin.H{})
 		return
 	}
 
@@ -166,4 +166,12 @@ func (ac *AuthController) Login(c *gin.Context) {
 	session.Save()
 
 	c.Redirect(http.StatusFound, "/home")
+}
+
+func Logout(c *gin.Context) {
+	session := sessions.Default(c)
+	session.Clear()
+	session.Save()
+
+	c.Redirect(http.StatusFound, "/login")
 }
