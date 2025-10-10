@@ -46,19 +46,13 @@ func containsLowerCase(s string) bool {
 func containsNumber(s string) bool {
 	re := regexp.MustCompile(`\d`)
 
-	if re.MatchString(s) {
-		return true
-	}
-	return false
+	return re.MatchString(s)
 }
 
 func containsSpecialCharacters(s string) bool {
 	specialCharacters := "!@#$%^&*()"
 
-	if strings.ContainsAny(s, specialCharacters) {
-		return true
-	}
-	return false
+	return strings.ContainsAny(s, specialCharacters) 
 }
 
 func Home(c *gin.Context) {
