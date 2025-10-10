@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"Fitness-Tracker/config"
 	"Fitness-Tracker/models"
+	"Fitness-Tracker/utils"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -57,6 +59,14 @@ func containsSpecialCharacters(s string) bool {
 		return true
 	}
 	return false
+}
+
+func Home(c *gin.Context) {
+	db := config.DB
+
+	user := utils.GetCurrentUser(c, db)
+
+	c.HTML(http.StatusOK, "home", gin.H{"user": user})
 }
 
 func (ac *AuthController) Register(c *gin.Context) {
@@ -128,6 +138,7 @@ func (ac *AuthController) Register(c *gin.Context) {
 		HeightCm:     heightCm,
 		Gender:       gender,
 		DOB:          dob,
+		Role:         "user",
 	}
 
 	if err := ac.DB.Create(&newUser).Error; err != nil {
@@ -173,5 +184,5 @@ func Logout(c *gin.Context) {
 	session.Clear()
 	session.Save()
 
-	c.Redirect(http.StatusFound, "/login")
+	c.Redirect(http.StatusFound, "/home")
 }
