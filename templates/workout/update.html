@@ -1,0 +1,67 @@
+{{define "content"}}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Update Workout</h4>
+                </div>
+
+                <div class="card-body p-4">
+                    {{if .error}}
+                    <div class="alert alert-danger" role="alert">
+                        {{.error}}
+                    </div>
+                    {{end}}
+
+                    <form method="POST" action="/update-workout/{{.workout.ID}}">
+                        <!-- Type -->
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Workout Type *</label>
+                            <input type="text" class="form-control" id="type" name="Type"
+                                   value="{{.workout.Type}}" required>
+                        </div>
+
+                        <!-- Duration -->
+                        <div class="mb-3">
+                            <label for="duration" class="form-label">Duration (minutes)</label>
+                            <input type="number" class="form-control" id="duration" name="Duration"
+                                   value="{{.workout.Duration}}">
+                        </div>
+
+                        <!-- Distance -->
+                        <div class="mb-3">
+                            <label for="distance" class="form-label">Distance (meters)</label>
+                            <input type="number" class="form-control" id="distance" name="DistanceM"
+                                   value="{{.workout.DistanceM}}">
+                        </div>
+
+
+                        <!-- Date -->
+                        <div class="mb-3">
+                            <label for="occuredAt" class="form-label">Date</label>
+                            <input type="datetime-local" class="form-control" id="occuredAt" name="OccuredAt"
+                                   value="{{.workout.OccuredAt}}">
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="notes" name="Notes" rows="3">{{.workout.Notes}}</textarea>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">Update Workout</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a href="/home" class="text-decoration-none">← Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

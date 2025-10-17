@@ -28,7 +28,7 @@
           <a class="nav-link active" aria-current="page" href="/home"><i class="bi bi-house-heart-fill"></i>  Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="#">Weekly Metrics</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>
@@ -38,6 +38,9 @@
       <span class="navbar-text">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             {{if .user}}
+            <li class="nav-item">
+                <a class="nav-link text-info fw-bold" href="#">{{.user.DisplayName}}</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="/logout">Logout</a>
             </li>

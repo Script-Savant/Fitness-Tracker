@@ -1,0 +1,68 @@
+{{define "content"}}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">New Workout</h4>
+                </div>
+
+                <div class="card-body p-4">
+                    {{if .error}}
+                    <div class="alert alert-danger" role="alert">
+                        {{.error}}
+                    </div>
+                    {{end}}
+
+                    <form method="POST" action="/create-workout">
+                        <!-- Type -->
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Workout Type *</label>
+                            <input type="text" class="form-control" id="type" name="Type"
+                                   placeholder="e.g., Running, Cycling" required>
+                        </div>
+
+                        <!-- Duration -->
+                        <div class="mb-3">
+                            <label for="duration" class="form-label">Duration (minutes)</label>
+                            <input type="number" class="form-control" id="duration" name="Duration"
+                                   placeholder="e.g., 45">
+                        </div>
+
+                        <!-- Distance -->
+                        <div class="mb-3">
+                            <label for="distance" class="form-label">Distance (meters)</label>
+                            <input type="number" class="form-control" id="distance" name="DistanceM"
+                                   placeholder="e.g., 5000">
+                        </div>
+
+
+                        <!-- Date -->
+                        <div class="mb-3">
+                            <label for="occuredAt" class="form-label">Date</label>
+                            <input type="datetime-local" class="form-control" id="occuredAt" name="OccuredAt"
+                                   value="{{.OccuredAt}}">
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="notes" name="Notes" rows="3"
+                                      placeholder="Optional details about this workout"></textarea>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Save Workout</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a href="/home" class="text-decoration-none">← Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

@@ -8,15 +8,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes(r *gin.Engine) {
+func SetupAuthRoutes(r *gin.Engine) {
 	db := config.DB
 
-	// home
-	r.GET("/", handlers.Home)
-	r.GET("/home", handlers.Home)
+	authController := handlers.NewAuthController(db)
+
+	
 
 	// Auth routes
-	authController := handlers.NewAuthController(db)
 
 	r.GET("/register", authController.Register)
 	r.POST("/register", authController.Register)
@@ -27,6 +26,10 @@ func SetupRoutes(r *gin.Engine) {
 	auth := r.Group("/")
 	auth.Use(middleware.AuthRequired())
 	{
+		// home
+		auth.GET("/", authController.Home)
+		auth.GET("/home", authController.Home)
+
 		auth.GET("/logout", handlers.Logout)
 	}
 }

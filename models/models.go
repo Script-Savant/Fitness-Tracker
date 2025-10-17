@@ -23,19 +23,16 @@ type Workout struct {
 	Type      string `gorm:"not null"`
 	Duration  int
 	DistanceM int
-	Calories  int
 	Notes     string
 	OccuredAt time.Time `gorm:"index"`
+	Done      bool      `gorm:"default:false"`
 	User      User      `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 }
 
-type DailyMetric struct {
+type WeeklyMetric struct {
 	gorm.Model
 	UserID   uint      `gorm:"index; not null"`
 	Date     time.Time `gorm:"index"`
 	WeightKg float32
-	RestHr   int
-	Steps    int
-	SleepHrs float32
 	User     User `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 }

@@ -20,7 +20,7 @@ func ConnectDatabase() {
 	if err := db.AutoMigrate(
 		&models.User{},
 		&models.Workout{},
-		&models.DailyMetric{},
+		&models.WeeklyMetric{},
 	); err != nil {
 		log.Fatal("Failed to migrate the database")
 	}
@@ -28,4 +28,8 @@ func ConnectDatabase() {
 	fmt.Println("Successfully connected to the database")
 
 	DB = db
+}
+
+func GetDB() * gorm.DB {
+	return DB
 }

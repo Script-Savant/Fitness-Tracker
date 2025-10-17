@@ -29,7 +29,8 @@ func main() {
 	router.Static("/static", "./static")
 
 	// routes
-	routes.SetupRoutes(router)
+	routes.SetupAuthRoutes(router)
+	routes.SetupWorkoutRoutes(router)
 
 	// start server
 	log.Println("Server starting on :8080")

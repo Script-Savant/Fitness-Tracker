@@ -1,11 +1,12 @@
 package handlers
 
 import (
-	"Fitness-Tracker/config"
 	"Fitness-Tracker/models"
 	"Fitness-Tracker/utils"
+	"fmt"
 	"net/http"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -52,16 +53,74 @@ func containsNumber(s string) bool {
 func containsSpecialCharacters(s string) bool {
 	specialCharacters := "!@#$%^&*()"
 
-	return strings.ContainsAny(s, specialCharacters) 
+	return strings.ContainsAny(s, specialCharacters)
 }
 
-func Home(c *gin.Context) {
-	db := config.DB
+func (ac *AuthController) Home(c *gin.Context) {
+	user := utils.GetCurrentUser(c, ac.DB)
 
-	user := utils.GetCurrentUser(c, db)
+	var workouts []models.Workout
 
-	c.HTML(http.StatusOK, "home", gin.H{"user": user})
+	if err := ac.DB.
+		Where("user_id = ?", user.ID).
+		Order("created_at desc").
+		Find(&workouts).Error; err != nil {
+		c.HTML(http.StatusInternalServerError, "home", gin.H{
+			"user":  user,
+			"error": "Error fetching workouts",
+		})
+		return
+	}
+
+	weeklyWorkouts, weekKeys := groupWorkoutsWeekly(workouts)
+
+	c.HTML(http.StatusOK, "home", gin.H{
+		"user":           user,
+		"workouts":       workouts,
+		"weeklyWorkouts": weeklyWorkouts,
+		"weekKeys":       weekKeys,
+	})
 }
+
+
+func groupWorkoutsWeekly(workouts []models.Workout) (map[string][]models.Workout, []string) {
+	weekly := make(map[string][]models.Workout)
+
+	for _, workout := range workouts {
+		year, week := workout.OccuredAt.ISOWeek()
+		weekKey := fmt.Sprintf("%d-W%02d", year, week)
+		weekly[weekKey] = append(weekly[weekKey], workout)
+	}
+
+	// Sort workouts within each week by date ascending
+	for weekKey, weekWorkouts := range weekly {
+		sort.Slice(weekWorkouts, func(i, j int) bool {
+			return weekWorkouts[i].OccuredAt.Before(weekWorkouts[j].OccuredAt)
+		})
+		weekly[weekKey] = weekWorkouts
+	}
+
+	// Collect all week keys
+	var weekKeys []string
+	for k := range weekly {
+		weekKeys = append(weekKeys, k)
+	}
+
+	// Sort weeks by newest first (descending)
+	sort.Slice(weekKeys, func(i, j int) bool {
+		// Parse back to year/week numbers for comparison
+		var yi, wi, yj, wj int
+		fmt.Sscanf(weekKeys[i], "%d-W%d", &yi, &wi)
+		fmt.Sscanf(weekKeys[j], "%d-W%d", &yj, &wj)
+		if yi == yj {
+			return wi > wj // higher week = newer
+		}
+		return yi > yj // higher year = newer
+	})
+
+	return weekly, weekKeys
+}
+
 
 func (ac *AuthController) Register(c *gin.Context) {
 
