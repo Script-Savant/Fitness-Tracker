@@ -109,8 +109,8 @@ Custom template functions for better display (add, etc.)
 
 🚀 Getting Started
 1️⃣ Clone the Repository
-```git clone https://github.com/Script-Savant/Fitness-Tracker.git
-cd Fitness-Tracker```
+```git clone https://github.com/Script-Savant/Fitness-Tracker.git```
+```cd Fitness-Tracker```
 
 2️⃣ Install Dependencies
 ```go mod tidy```
@@ -121,7 +121,7 @@ cd Fitness-Tracker```
 4️⃣ Access the App
 
 Open your browser and go to:
-http://localhost:8080
+```http://localhost:8080```
 
 
 🧩 Main Routes
