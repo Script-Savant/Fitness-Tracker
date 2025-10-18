@@ -1,0 +1,69 @@
+{{define "content"}}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Your Metrics</h4>
+                    <a href="/create-metrics" class="btn btn-light btn-sm">Add New</a>
+                </div>
+                <div class="card-body p-4">
+
+                    {{if .error}}
+                    <div class="alert alert-danger" role="alert">
+                        {{.error}}
+                    </div>
+                    {{end}}
+
+                    {{if .metrics}}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Weight (kg)</th>
+                                    <th scope="col">Height (cm)</th>
+                                    <th scope="col">BMI</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{range $index, $m := .metrics}}
+                                <tr>
+                                    <td>{{$index | add 1}}</td>
+                                    <td>{{$m.Date.Format "02 Jan 2006 15:04"}}</td>
+                                    <td>{{$m.WeightKg}}</td>
+                                    <td>{{$m.HeightCm}}</td>
+                                    <td>{{printf "%.2f" $m.BMI}}</td>
+                                    <td>
+                                        {{if eq $m.Status "Underweight"}}
+                                            <span class="badge bg-warning text-dark">{{$m.Status}}</span>
+                                        {{else if eq $m.Status "Normal"}}
+                                            <span class="badge bg-success">{{$m.Status}}</span>
+                                        {{else if eq $m.Status "Overweight"}}
+                                            <span class="badge bg-info text-dark">{{$m.Status}}</span>
+                                        {{else if eq $m.Status "Obese"}}
+                                            <span class="badge bg-danger">{{$m.Status}}</span>
+                                        {{else}}
+                                            <span class="badge bg-secondary">{{$m.Status}}</span>
+                                        {{end}}
+                                    </td>
+                                </tr>
+                                {{end}}
+                            </tbody>
+                        </table>
+                    </div>
+                    {{else}}
+                    <div class="text-center">
+                        <p>No metrics recorded yet.</p>
+                        <a href="/create-metrics" class="btn btn-primary">Add Your First Record</a>
+                    </div>
+                    {{end}}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

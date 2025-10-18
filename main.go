@@ -31,6 +31,7 @@ func main() {
 	// routes
 	routes.SetupAuthRoutes(router)
 	routes.SetupWorkoutRoutes(router)
+	routes.SetupMetricRoutes(router)
 
 	// start server
 	log.Println("Server starting on :8080")
