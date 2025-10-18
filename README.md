@@ -108,6 +108,7 @@ Custom template functions for better display (add, etc.)
 
 
 🚀 Getting Started
+
 1️⃣ Clone the Repository
 ```git clone https://github.com/Script-Savant/Fitness-Tracker.git```
 ```cd Fitness-Tracker```
@@ -135,6 +136,20 @@ Open your browser and go to:
 | `/update-workout/:id` | GET/POST | Edit a workout       |
 | `/create-metrics`     | GET/POST | Record new BMI data  |
 | `/display-metrics`    | GET      | View all metrics     |
+
+🧑‍💻 Developer Notes
+
+Make sure your templates are registered in utils.SetupTemplates().
+
+Static files (Bootstrap, images) are served under /static.
+
+Middleware in middleware/auth.go protects private routes.
+
+The utils/auth.go file manages session and user retrieval logic.
+
+🧾 License
+
+MIT License © 2025 Alex Kinuthia
 
 
 🧮 BMI Calculation Logic
@@ -164,19 +179,6 @@ In the Metrics model (models/models.go):
 }```
 
 
-🧑‍💻 Developer Notes
-
-Make sure your templates are registered in utils.SetupTemplates().
-
-Static files (Bootstrap, images) are served under /static.
-
-Middleware in middleware/auth.go protects private routes.
-
-The utils/auth.go file manages session and user retrieval logic.
-
-🧾 License
-
-MIT License © 2025 Alex Kinuthia
 
 
 `Feel Free to add more functionality`
